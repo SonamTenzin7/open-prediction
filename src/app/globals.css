@@ -1,26 +1,280 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #1e90ff;
+  --color-secondary: #ff4c4c;
+  --color-success: #32cd32;
+  --color-warning: #ffa500;
+  --color-background: #121212;
+  --color-card: #1e1e1e;
+  --color-text-main: #ffffff;
+  --color-text-secondary: #b0b0b0;
+}
+
 :root {
+  --primary: #1e90ff;
+  --secondary: #ff4c4c;
+  --background: #121212;
+  --card: #1e1e1e;
+  --card-hover: #252525;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.12);
+  --text-main: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-muted: rgba(255, 255, 255, 0.2);
+  --nav-bg: rgba(0, 0, 0, 0.5);
+  --input-bg: rgba(255, 255, 255, 0.03);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.1);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] {
   --background: #ffffff;
-  --foreground: #171717;
+  --card: #ffffff;
+  --card-hover: #f9fafb;
+  --border: rgba(0, 0, 0, 0.08);
+  --border-hover: rgba(0, 0, 0, 0.15);
+  --text-main: #1a202c;
+  --text-secondary: #4a5568;
+  --text-muted: rgba(0, 0, 0, 0.35);
+  --nav-bg: rgba(255, 255, 255, 0.75);
+  --input-bg: rgba(0, 0, 0, 0.04);
+  --scrollbar-thumb: rgba(0, 0, 0, 0.15);
+  --scrollbar-thumb-hover: rgba(0, 0, 0, 0.25);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ── Base typography ─────────────────────────────────────── */
+body {
+  /* Orbitron for futuristic UI; Inter as fallback for long-form text */
+  font-family:
+    var(--font-orbitron), var(--font-inter), ui-sans-serif, system-ui,
+    sans-serif;
+  color: var(--text-main);
+  background: var(--background);
+  min-height: 100vh;
+  transition:
+    background 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Font utility overrides */
+.font-sans {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+.font-orbitron {
+  font-family: var(--font-orbitron), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Long-form readable text uses Inter */
+p,
+li,
+textarea,
+input {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ── Custom Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Smooth scrolling for specific containers */
+.smooth-scroll {
+  scroll-behavior: smooth;
+  overflow-y: auto;
+}
+
+.smooth-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.smooth-scroll::-webkit-scrollbar-thumb {
+  background: rgba(30, 144, 255, 0.2);
+  border-radius: 10px;
+}
+
+.smooth-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(30, 144, 255, 0.4);
+}
+
+[data-theme="light"] .smooth-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="light"] .smooth-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+/* ── Futuristic Animations ─────────────────────────────────── */
+
+/* Shimmer across a surface */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Grid-background scroll */
+@keyframes grid-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100px;
+  }
+}
+@keyframes grid-move-reverse {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 -100px;
+  }
+}
+
+/* Glowing rectangle border pulse */
+@keyframes rect-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 0px rgba(30, 144, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(30, 144, 255, 0.25);
+  }
+}
+
+/* Particle animations along lines */
+@keyframes slideHorizontal {
+  0% {
+    left: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes slideVertical {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* ── Utility classes ───────────────────────────────────────── */
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+.animate-grid-move {
+  animation: grid-move 3s linear infinite;
+}
+.animate-grid-move-reverse {
+  animation: grid-move-reverse 3s linear infinite;
+}
+.animate-rect-glow {
+  animation: rect-glow 3s ease-in-out infinite;
+}
+
+/* ── Binary Hover Effect ────────────────────────────────────── */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes binaryFlicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+.binary-hover-wrapper {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-block;
+}
+
+.binary-hover-binary {
+  color: inherit !important;
+}
+
+/* Remove the color change on hover for binary text in buttons */
+button .binary-hover-wrapper:hover {
+  color: inherit;
+}
+
+/* ── Mobile Optimizations ──────────────────────────────────── */
+@media (max-width: 640px) {
+  /* Better touch targets on mobile */
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent horizontal scrolling */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Better text sizing */
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+/* Hide scrollbar for category navigation on mobile */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
